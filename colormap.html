@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+#list1 {
+  height:300px; width:40%;
+  overflow:hidden; overflow-y:scroll;
+}
+
+#list2 {
+  height:300px; width:40%;
+  overflow:hidden; overflow-y:scroll;
+}
+
+.body {
+  height:100%; width:100%;
+}
+
+.main {
+  height:100%; width:100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.left {
+  height:300px; width:50%;
+  position:relative;
+  float:left;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.right {
+  height:100px; width:50%;
+  position:relative;
+  float:left;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.litem {
+  cursor: pointer;
+}
+.valuename{
+background:red;
+padding:30px;
+	-moz-border-radius: 100px / 50px;
+	-webkit-border-radius: 100px / 50px;
+	border-radius: 100px / 50px;
+}
+</style>
+<script>
+	function requestColors() {
+		var colorData;
+
+		var oReq = new XMLHttpRequest();
+		oReq.onload = reqListener;
+		oReq.open("get", "ColorNameMap.json", true);
+		oReq.send();
+
+		function reqListener(e) {
+			colorData = JSON.parse(this.responseText);
+			
+			var i;
+
+			for (i = 0; i < colorData.length; i++)
+			{
+				var li = document.createElement("li");
+			
+				li.className = "litem";
+				
+				
+				li.id = "list1" + i;
+					
+				
+				var t = document.createTextNode(colorData[i].color);
+				var valuename= document.createElement("div");
+				valuename.className="valuename";
+				valuename.style.background = colorData[i].value;
+				li.appendChild(t);
+				li.appendChild(valuename);
+				document.getElementById("list1").appendChild(li);
+			}
+
+			for (i = 0; i < colorData.length; i++)
+			{
+				var li = document.createElement("li");
+				li.className = "litem";
+				li.id = "list2" + i;
+				var t = document.createTextNode(colorData[i].value);
+				li.appendChild(t);
+				document.getElementById("list2").appendChild(li);
+			}
+		}
+	}
+	
+	window.onload = requestColors;
+</script>
+</head>
+<body>
+<div class="main">
+	<div class="left">
+		<ul id="list1">
+		</ul>
+	</div>
+
+	<div class="right">
+		<ul id="list2">
+		</ul>
+	</div>
+</div>
+</body>
+</html>
